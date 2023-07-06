@@ -12,7 +12,6 @@ public class PlayerBullet : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         rigid.velocity = transform.up * speed;
-
     }
 
     private void OnTriggerEnter(Collider other)
