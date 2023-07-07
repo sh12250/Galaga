@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
             scoreText.SetText(string.Format("Score : {0}", (int)score));
             // == timeText.text = string.Format("Time : {0}", (int)surviveTime);
         }
-        else
+        else 
         {
             if (Input.GetKeyDown(KeyCode.R))
             {

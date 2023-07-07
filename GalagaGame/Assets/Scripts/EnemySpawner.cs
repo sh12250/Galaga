@@ -68,8 +68,6 @@ public class EnemySpawner : MonoBehaviour
                 int count = 0;
                 while (idxs.Contains(randIdx) && count < 10)
                 {
-                    GFunc.Log(randIdx);
-
                     randIdx = Random.Range(0, enemiesPoss.Count);
                     count++;
                 }
