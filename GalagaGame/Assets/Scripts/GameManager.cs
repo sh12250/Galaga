@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUi = default;
     public GameObject scoreText = default;
     public GameObject recordText = default;
+    public float score = default;
 
-    private float score = default;
     private bool isGameOver = default;
 
     // Start is called before the first frame update
@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver == false)
         {
-            score += Time.deltaTime;
             scoreText.SetText(string.Format("Score : {0}", (int)score));
             // == timeText.text = string.Format("Time : {0}", (int)surviveTime);
         }
@@ -34,5 +33,23 @@ public class GameManager : MonoBehaviour
                 GFunc.LoadScene("PlayScene");
             }
         }
+    }
+
+    public void GameOver()
+    {
+        isGameOver = true;
+        gameOverUi.SetActive(true);
+
+        float bestScore = PlayerPrefs.GetFloat("BestScore");
+        // BestTime 이 비어있으면 0을 가져온다
+
+        if (bestScore < score)
+        {
+            bestScore = score;
+            PlayerPrefs.SetFloat("BestScore", bestScore);
+        }
+
+        recordText.SetText(string.Format("Best Score : {0}", (int)bestScore));
+        // == recordText.text = string.Format("Best Time : {0}", (int)bestTime);
     }
 }

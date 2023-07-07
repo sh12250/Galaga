@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
+    public GameObject level = default;
+    public GameObject bulletExplosionPrefab = default;
     public float speed = default;
     private Rigidbody rigid = default;
 
@@ -16,15 +18,24 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player") || other.tag.Equals("Wall"))
+        if (other.CompareTag("Player"))
         {
             PlayerController playerControler = other.GetComponent<PlayerController>();
 
             if (playerControler != null)
             {
                 playerControler.Die();
+                PlayerSpawner pSpawner = FindObjectOfType<PlayerSpawner>();
+                pSpawner.life -= 1;
             }
 
+            GameObject explosion = Instantiate(bulletExplosionPrefab, transform.position + new Vector3(0, -8, 0), transform.rotation);
+            Destroy(explosion, 1f);
+            Destroy(gameObject);
+        }
+
+        if (other.CompareTag("Wall"))
+        {
             Destroy(gameObject);
         }
     }

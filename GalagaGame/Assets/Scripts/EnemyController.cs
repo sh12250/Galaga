@@ -7,8 +7,7 @@ public class EnemyController : MonoBehaviour
 {
     public GameObject level = default;
     public GameObject enemyBullet = default;
-    public float speed = default;
-    public Rigidbody rigid = default;
+    public GameObject enemyExplosionPrefab = default;
 
     private float shootRate = default;
     private float timeAfterShoot = default;
@@ -17,7 +16,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         timeAfterShoot = 0f;
-        shootRate = 10f;
+        shootRate = 3f;
     }
 
     // Update is called once per frame
@@ -29,11 +28,26 @@ public class EnemyController : MonoBehaviour
             timeAfterShoot = 0;
 
             GameObject bullet = Instantiate(enemyBullet, transform.position, transform.rotation, level.transform);
+            bullet.GetComponent<EnemyBullet>().level = level;
+        }
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
+
+            enemySpawner.idxs.Remove(enemySpawner.enemies.FindIndex(0, enemySpawner.enemies.Count, x => x == collision.gameObject));
+            enemySpawner.enemies.Remove(collision.gameObject);
+            Destroy(collision.gameObject);
         }
     }
 
     public void Die()
     {
+        GameObject explosion = Instantiate(enemyExplosionPrefab, transform.position, transform.rotation);
+        Destroy(explosion, 2f);
         gameObject.SetActive(false);
     }
 }

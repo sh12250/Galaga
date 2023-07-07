@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public GameObject level = default;
     public GameObject playerBullet = default;
+    public GameObject playerExplosionPrefab = default;
     public float speed = default;
 
     private Rigidbody rigid = default;
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z))
         {
             GameObject bullet = Instantiate(playerBullet, transform.position, transform.rotation, level.transform);
+            bullet.GetComponent<PlayerBullet>().level = level;
         }
 
         float xInput = Input.GetAxis("Horizontal");
@@ -36,6 +39,8 @@ public class PlayerController : MonoBehaviour
     }
     public void Die()
     {
+        GameObject explosion = Instantiate(playerExplosionPrefab, transform.position, transform.rotation);
+        Destroy(explosion, 2f);
         gameObject.SetActive(false);
     }
 }
