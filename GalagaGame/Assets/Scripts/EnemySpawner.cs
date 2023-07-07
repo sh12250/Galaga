@@ -88,7 +88,6 @@ public class EnemySpawner : MonoBehaviour
                 timeAfterSpawn = 0f;
 
                 GameObject enemy = Instantiate(enemyPrefab, transform.position, transform.rotation, transform);
-                //EnemyController enemyController = enemy.GetComponent<EnemyController>();
                 enemy.GetComponent<EnemyController>().level = level;
                 enemies.Add(enemy);
             }
@@ -113,6 +112,15 @@ public class EnemySpawner : MonoBehaviour
             for (int i = 0; i < enemiesPoss.Count; i++)
             {
                 enemiesPoss[i] = enemiesPossTemp[i];
+            }
+        }
+
+        for (int i = 0;i < enemies.Count; i++)
+        {
+            if (enemies[i].transform.position.y < -94)
+            {
+                GameManager gm = FindObjectOfType<GameManager>();
+                gm.GameOver();
             }
         }
     }

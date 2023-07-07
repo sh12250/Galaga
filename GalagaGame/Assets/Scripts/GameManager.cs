@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1f;
         score = 0f;
         isGameOver = false;
     }
@@ -41,7 +42,6 @@ public class GameManager : MonoBehaviour
         gameOverUi.SetActive(true);
 
         float bestScore = PlayerPrefs.GetFloat("BestScore");
-        // BestTime 이 비어있으면 0을 가져온다
 
         if (bestScore < score)
         {
@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         }
 
         recordText.SetText(string.Format("Best Score : {0}", (int)bestScore));
-        // == recordText.text = string.Format("Best Time : {0}", (int)bestTime);
+
+        Time.timeScale = 0f;
     }
 }

@@ -31,18 +31,6 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
-
-            enemySpawner.idxs.Remove(enemySpawner.enemies.FindIndex(0, enemySpawner.enemies.Count, x => x == collision.gameObject));
-            enemySpawner.enemies.Remove(collision.gameObject);
-            Destroy(collision.gameObject);
-        }
-    }
-
     public void Die()
     {
         GameObject explosion = Instantiate(enemyExplosionPrefab, transform.position, transform.rotation);
